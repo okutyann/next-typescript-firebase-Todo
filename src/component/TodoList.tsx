@@ -9,22 +9,45 @@ export const TodoList = () => {
   };
   const addTodoList = (e: any) => {
     e.preventDefault();
+    if (input === "") {
+      alert("入力してください。");
+      return;
+    }
+
+    // some
+    // todosの中からinputと同じものがあればtrue
+    // なければfalseを返す
+    if (todos.some((todo) => todo === input)) {
+      alert("既に追加されています。");
+      setInput("");
+      return;
+    }
+
     setTodos([...todos, input]);
     setInput("");
   };
   return (
-    <form
-      onSubmit={(e) => {
-        addTodoList(e);
-      }}
-    >
-      <input value={input} onChange={(e) => add(e)} />
-      <button type="submit">Submit</button>
-      <ul>
-        {todos.map((todo, index) => (
-          <li key={index}>{todo}</li>
-        ))}
-      </ul>
-    </form>
+    <div className={styles.main}>
+      <form
+        onSubmit={(e) => {
+          addTodoList(e);
+        }}
+      >
+        <h1>TodoList</h1>
+        <input
+          className={styles.input}
+          value={input}
+          onChange={(e) => add(e)}
+        />
+        <ul className={styles.ul}>
+          {todos.map((todo, index) => (
+            <li key={index}>
+              <input type="checkbox" />
+              {todo}
+            </li>
+          ))}
+        </ul>
+      </form>
+    </div>
   );
 };
